@@ -62,13 +62,6 @@ namespace CppSharp.Passes
             if (Options.GeneratorKind == GeneratorKind.CPlusPlus)
                 GenerateAcessorMethods(field, prop);
 
-            // do not rename value-class fields because they would be
-            // generated as fields later on even though they are wrapped by properties;
-            // that is, in turn, because it's cleaner to write
-            // the struct marshalling logic just for properties
-            if (!prop.IsInRefTypeAndBackedByValueClassField())
-                field.Name = Generator.GeneratedIdentifier(field.Name);
-
             @class.Properties.Add(prop);
 
             Diagnostics.Debug($"Property created from field: {field.QualifiedName}");
