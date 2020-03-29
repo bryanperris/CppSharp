@@ -363,6 +363,15 @@ namespace CppSharp.Generators.C
             }
             case TypePrintScopeKind.Qualified:
             {
+                if (ContextKind == TypePrinterContextKind.Managed)
+                {
+                    var outputNamespace = declaration.TranslationUnit?.Module?.OutputNamespace;
+                    if (!string.IsNullOrEmpty(outputNamespace))
+                        return $"{outputNamespace}::{declaration.QualifiedName}";
+
+                    return declaration.QualifiedName;
+                }
+
                 if (declaration.Namespace is Class)
                     return $"{declaration.Namespace.Visit(this)}::{declaration.OriginalName}";
 
